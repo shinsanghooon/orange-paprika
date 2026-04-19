@@ -8,8 +8,12 @@ import { Nav } from '@/components/Nav';
 import { FooterMeta } from '@/components/FooterMeta';
 import { ProductSection } from '@/components/ProductSection';
 
+const SECTION_HEIGHT_VH = 200;
+const LINE_OFFSET_VH = -35;
+
 export default function Home() {
   const scrollRef = useRef({ scrollY: 0, vh: 0 });
+  const boardSizeRef = useRef(480);
   const [boardSize, setBoardSize] = useState(480);
 
   useEffect(() => {
@@ -17,7 +21,9 @@ export default function Home() {
       scrollRef.current.scrollY = window.scrollY;
       scrollRef.current.vh = window.innerHeight;
       const minDim = Math.min(window.innerHeight, window.innerWidth);
-      setBoardSize(Math.max(320, Math.min(Math.floor(minDim * 0.55), 560)));
+      const next = Math.max(320, Math.min(Math.floor(minDim * 0.55), 560));
+      boardSizeRef.current = next;
+      setBoardSize(next);
     };
     update();
     window.addEventListener('scroll', update, { passive: true });
@@ -45,30 +51,43 @@ export default function Home() {
 
   const getState = useCallback(() => {
     const { scrollY, vh } = scrollRef.current;
-    const lastIdx = products.length - 1;
+    const size = boardSizeRef.current;
     if (vh === 0) return { currentIdx: 0, nextIdx: 0, progress: 0 };
 
-    const phase = scrollY / vh;
-    const phaseIdx = Math.floor(phase);
-    const phaseProg = phase - phaseIdx;
+    const boardTopVP = vh * 0.5 - size / 2;
+    const boardBottomVP = vh * 0.5 + size / 2;
+    const lineCount = products.length - 1;
 
-    if (phaseIdx < 0) return { currentIdx: 0, nextIdx: 0, progress: 0 };
+    let currentIdx = 0;
+    let nextIdx = 0;
+    let progress = 0;
 
-    const totalPhases = products.length * 2 - 1;
-    if (phaseIdx >= totalPhases) {
-      return { currentIdx: lastIdx, nextIdx: lastIdx, progress: 0 };
+    for (let i = 0; i < lineCount; i++) {
+      const linePageY =
+        ((i + 1) * SECTION_HEIGHT_VH + LINE_OFFSET_VH) * (vh / 100);
+      const lineVP = linePageY - scrollY;
+
+      if (lineVP > boardBottomVP) {
+        currentIdx = i;
+        nextIdx = i;
+        progress = 0;
+        return { currentIdx, nextIdx, progress };
+      }
+
+      if (lineVP < boardTopVP) {
+        currentIdx = i + 1;
+        nextIdx = i + 1;
+        progress = 0;
+        continue;
+      }
+
+      currentIdx = i;
+      nextIdx = i + 1;
+      progress = (boardBottomVP - lineVP) / (boardBottomVP - boardTopVP);
+      return { currentIdx, nextIdx, progress };
     }
 
-    if (phaseIdx % 2 === 0) {
-      const idx = phaseIdx / 2;
-      return { currentIdx: idx, nextIdx: idx, progress: 0 };
-    }
-    const currentIdx = (phaseIdx - 1) / 2;
-    return {
-      currentIdx,
-      nextIdx: Math.min(currentIdx + 1, lastIdx),
-      progress: phaseProg,
-    };
+    return { currentIdx, nextIdx, progress };
   }, []);
 
   const productList = useMemo(() => products, []);
@@ -90,7 +109,9 @@ export default function Home() {
         <ProductSection
           key={product.number}
           product={product}
+          productIdx={idx}
           isFirst={idx === 0}
+          getState={getState}
         />
       ))}
     </main>
