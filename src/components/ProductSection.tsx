@@ -132,7 +132,18 @@ export function ProductSection({
           <span aria-hidden="true" className="text-neutral-300">
             ·
           </span>
-          <span className="text-neutral-700">{product.name}</span>
+          {product.link ? (
+            <a
+              href={product.link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer text-neutral-700 hover:underline"
+            >
+              {product.name}
+            </a>
+          ) : (
+            <span className="text-neutral-700">{product.name}</span>
+          )}
         </div>
         <h2 className="whitespace-pre-line text-[clamp(2.5rem,5.5vw,5rem)] font-light leading-[1.02] tracking-tight">
           {product.slogan}
@@ -147,6 +158,17 @@ export function ProductSection({
         <p className="text-sm leading-relaxed text-neutral-600">
           {product.description}
         </p>
+        {product.link && (
+          <a
+            href={product.link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-1 text-[11px] tracking-[0.2em] uppercase text-neutral-800 hover:underline"
+          >
+            <span aria-hidden="true">→</span>
+            <span>{product.link.label}</span>
+          </a>
+        )}
       </div>
     </section>
   );
