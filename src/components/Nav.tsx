@@ -3,7 +3,7 @@ export function Nav() {
     <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[5vw] py-6 text-[11px] tracking-[0.2em] uppercase">
       <span className="font-medium">Orange Paprika</span>
       <a
-        href="mailto:hello@orangepaprika.studio"
+        href="mailto:orangepaprika.official@gmail.com"
         className="transition-opacity hover:opacity-60"
       >
         Let&apos;s Talk
