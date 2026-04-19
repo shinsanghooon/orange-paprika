@@ -56,8 +56,8 @@ export function ProductSection({
       const vh = window.innerHeight;
       const scrollY = window.scrollY;
 
-      let sloganTop = '20vh';
-      let descTop = '70vh';
+      let sloganTop = '12vh';
+      let descTop = '78vh';
 
       const isTransition = state.currentIdx !== state.nextIdx;
 
@@ -67,11 +67,11 @@ export function ProductSection({
         const lineVpVh = linePageVh - (scrollY / vh) * 100;
 
         if (productIdx === state.currentIdx) {
-          sloganTop = '20vh';
-          descTop = '70vh';
+          sloganTop = '12vh';
+          descTop = '78vh';
         } else if (productIdx === state.nextIdx) {
-          sloganTop = `${(lineVpVh + 12).toFixed(2)}vh`;
-          descTop = `${(lineVpVh + 52).toFixed(2)}vh`;
+          sloganTop = `${(lineVpVh + 8).toFixed(2)}vh`;
+          descTop = `${(lineVpVh + 60).toFixed(2)}vh`;
         } else {
           sloganTop = '120vh';
           descTop = '120vh';
@@ -125,7 +125,7 @@ export function ProductSection({
       <div
         ref={sloganRef}
         className="fixed left-[5vw] z-20 max-w-xl transition-[opacity] duration-200"
-        style={{ top: '20vh', opacity: 0 }}
+        style={{ top: '12vh', opacity: 0 }}
       >
         <div className="mb-4 flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase">
           <span className="text-neutral-400">{product.number}</span>
@@ -142,7 +142,7 @@ export function ProductSection({
       <div
         ref={descRef}
         className="fixed right-[5vw] z-20 max-w-xs transition-[opacity] duration-200"
-        style={{ top: '70vh', opacity: 0 }}
+        style={{ top: '78vh', opacity: 0 }}
       >
         <p className="text-sm leading-relaxed text-neutral-600">
           {product.description}
