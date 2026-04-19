@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import { products } from '@/data/products';
 import { PixelBoard } from '@/components/PixelBoard';
-import { ScanLine } from '@/components/ScanLine';
 import { Nav } from '@/components/Nav';
 import { FooterMeta } from '@/components/FooterMeta';
 import { ProductSection } from '@/components/ProductSection';
@@ -78,7 +77,6 @@ export default function Home() {
     <main className="relative min-h-screen bg-[#f5f1ea] text-[#0a0a0a] antialiased">
       <Nav />
       <FooterMeta />
-      <ScanLine />
 
       <div className="pointer-events-none fixed inset-0 z-10 flex items-center justify-center">
         <PixelBoard
@@ -92,7 +90,7 @@ export default function Home() {
         <ProductSection
           key={product.number}
           product={product}
-          isLast={idx === productList.length - 1}
+          isFirst={idx === 0}
         />
       ))}
     </main>

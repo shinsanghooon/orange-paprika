@@ -33,7 +33,7 @@ export const products: Product[] = [
   {
     number: '03',
     name: 'Rollback',
-    slogan: '찍는 순간보다, 기다리는 시간',
+    slogan: '찍는 순간보다,\n기다리는 시간',
     description:
       '촬영 후 미리보기는 없습니다. 한 롤을 다 쓰고 6~24시간이 지나야 결과를 볼 수 있는 카메라. 셔터를 누르는 순간의 떨림을 되찾습니다.',
     pixelArt: rollback,
@@ -41,7 +41,7 @@ export const products: Product[] = [
   {
     number: '04',
     name: 'Interpreted',
-    slogan: '원문은 사라지고, 해석만 남는다',
+    slogan: '원문은 사라지고,\n해석만 남는다',
     description:
       '당신의 글은 24시간 후 사라지고, AI가 압축한 해석만 카드로 남습니다. 시간이 흐르면 비슷한 카드들은 하나의 정체성으로 합쳐집니다.',
     pixelArt: interpreted,
